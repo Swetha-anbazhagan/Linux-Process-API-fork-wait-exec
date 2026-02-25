@@ -7,6 +7,10 @@ Operating systems Lab exercise
 # AIM:
 To write C Program that uses Linux Process API - fork(), wait(), exec()
 
+## REG NO: 212224040343
+
+## NAME: SWETHA A
+
 # DESIGN STEPS:
 
 ### Step 1:
@@ -23,59 +27,109 @@ Test the C Program for the desired output.
 
 # PROGRAM:
 
-## C Program to create new process using Linux API system calls fork() and getpid() , getppid() and to print process ID and parent Process ID using Linux API system calls
+## C Program to print process ID and parent Process ID using Linux API system calls
+
+```
+#include<stdio.h>
+#include<sys/types.h>
+#include<unistd.h>
+int main(void)
+{ pid_t process_id;
+pid_t p_process_id;
+process_id=getpid();
+p_process_id=getppid();
+printf("The process id:%d\n",process_id);
+printf("The process id of parent function:%d\n",p_process_id);
+}
+
+```
 
 
+## OUTPUT
 
 
+<img width="485" height="409" alt="Screenshot from 2026-02-24 09-10-15" src="https://github.com/user-attachments/assets/9fc134d7-a3e5-4431-9001-5438b4e784f3" />
 
+## C Program to create new process using Linux API system calls fork() and getpid() , getppid() 
 
+```
+#include<stdio.h>
+#include<stdlib.h>
+#include<unistd.h>
+int main()
+{ int pid;
+pid=fork();
+if(pid==-1)
+{perror("fork");
+ exit(EXIT_FAILURE);
+}
+else if (pid==0)
+{printf("I am child,my pid is: %d\n",getpid());
+printf("My parent pid is: %d\n",getpid());
+exit(EXIT_SUCCESS);
+}
+else
+{ printf("I am parent,my pid is %d\n",getpid());
+  sleep(100);
+  exit(EXIT_SUCCESS);
 
+}
+return 0;
 
+}
 
+```
 
+## OUTPUT
 
-
-
-##OUTPUT
-
-
-
-
-
+<img width="542" height="183" alt="Screenshot from 2026-02-24 09-29-39" src="https://github.com/user-attachments/assets/98ae133c-42ac-443f-9587-25fd9272e043" />
 
 
 
 ## C Program to execute Linux system commands using Linux API system calls exec() , exit() , wait() family
 
+```
 
+#include<stdio.h>
+#include<stdlib.h>
+#include<sys/types.h>
+#include<sys/wait.h>
+#include<unistd.h>
+int main()
+{ pid_t pid=fork();
+  if (pid<0)
+  { perror("Fork failed");
+    exit(EXIT_FAILURE);
+  }
+  else if(pid==0)
+  {
+    printf("This is the child process.Executing 'ls' command.\n");
+    execl("/bin/ls","ls","-l",NULL);
+    perror("excel failed");
+    exit(EXIT_FAILURE);
+  }
+  else
+  { int status;
+    waitpid(pid,&status,0);
+    if (WIFEXITED(status))
+    { printf("Child process exited with status %d.\n",WEXITSTATUS(status));
+    }
+    else
+    {
+      printf("Child process did not exit normally.\n");
+      
+    }
+    printf("Parent process is done.\n");
+  
+  }
 
+}
 
+```
 
+## OUTPUT
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-##OUTPUT
-
-
+<img width="530" height="371" alt="Screenshot from 2026-02-25 08-42-03" src="https://github.com/user-attachments/assets/ea20bc01-d478-4d1d-84c5-782dfbcf9b7a" />
 
 
 
